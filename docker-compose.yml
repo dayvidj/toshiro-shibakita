@@ -25,10 +25,15 @@ services:
     depends_on:
       - mysql
     environment:
+      SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/toshiro_db
       SPRING_DATASOURCE_USERNAME: toshiro
       SPRING_DATASOURCE_PASSWORD: toshiro123
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-
+    healthcheck:
+      test: [ "CMD", "wget", "-qO-", "http://localhost:8080" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 volumes:
   mysql_data:
